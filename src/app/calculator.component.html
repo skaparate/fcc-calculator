@@ -1,0 +1,81 @@
+<div class="calculator">
+  <div class="calculator-wrapper">
+    <div class="calculator-display-container">
+      <div class="calculator-display calculator-display--operation">
+        {{ operation }}
+      </div>
+    </div>
+    <div class="calculator-buttons">
+      <button
+        class="calculator-button calculator-button--clear"
+        (click)="onClear()"
+        id="clear"
+      >
+        C
+      </button>
+      <button
+        class="calculator-button calculator-button--add"
+        value="+"
+        id="add"
+        (click)="onOperatorClick($event)"
+      >
+        +
+      </button>
+      <button
+        class="calculator-button calculator-button--subtract"
+        value="-"
+        id="subtract"
+        (click)="onOperatorClick($event)"
+      >
+        -
+      </button>
+      <button
+        class="calculator-button calculator-button--divide"
+        value="/"
+        id="divide"
+        (click)="onOperatorClick($event)"
+      >
+        /
+      </button>
+      <button
+        class="calculator-button calculator-button--multiply"
+        value="*"
+        id="multiply"
+        (click)="onOperatorClick($event)"
+      >
+        *
+      </button>
+      <button
+        *ngFor="let button of buttons"
+        class="calculator-button calculator-button--{{ button.value }}"
+        id="{{ button.id }}"
+        data-value="{{ button.value }}"
+        (click)="onButtonClick($event)"
+      >
+        {{ button.value }}
+      </button>
+      <button
+        class="calculator-button calculator-button--decimal"
+        id="decimal"
+        (click)="onDecimalClick()"
+      >
+        .
+      </button>
+
+      <button
+        class="calculator-button calculator-button--negate"
+        (click)="onNegate()"
+      >
+        +/-
+      </button>
+
+      <button
+        id="equals"
+        class="calculator-button calculator-button--equals"
+        (click)="onEqualsClick()"
+      >
+        =
+      </button>
+    </div>
+  </div>
+</div>

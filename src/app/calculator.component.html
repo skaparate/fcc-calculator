@@ -1,7 +1,13 @@
 <div class="calculator">
   <div class="calculator-wrapper">
     <div class="calculator-display-container">
-      <div class="calculator-display calculator-display--operation">
+      <div class="calculator-display calcular-display--expression">
+        {{ expr }}
+      </div>
+      <div
+        id="display"
+        class="calculator-display calculator-display--operation"
+      >
         {{ operation }}
       </div>
     </div>
@@ -12,6 +18,13 @@
         id="clear"
       >
         C
+      </button>
+      <button
+        class="calculator-button calculator-button--del"
+        value="del"
+        (click)="onDelClick($event)"
+      >
+        Del
       </button>
       <button
         class="calculator-button calculator-button--add"
@@ -62,12 +75,12 @@
         .
       </button>
 
-      <button
+      <!-- <button
         class="calculator-button calculator-button--negate"
         (click)="onNegate()"
       >
         +/-
-      </button>
+      </button> -->
 
       <button
         id="equals"

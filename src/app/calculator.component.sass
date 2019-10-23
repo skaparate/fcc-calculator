@@ -1,25 +1,63 @@
 .calculator
-  width: 300px
-  margin: 0 auto
+  width: 296px
+  margin: 2rem auto
+  border: 1px solid #c6ccb2
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75)
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75)
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75)
+  padding: .5rem
 
 .calculator-display
-  height: 45px
-  font-size: 1rem
-  padding: 5px
+  font-family: 'Digital 7 Regular'
+  font-size: 1.5rem
+  padding: 1rem
   text-align: right
+  background-color: #e5eafa
+  color: black
+  border: 1px solid darken(#e5eafa, 10%)
+  -webkit-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.75)
+  -moz-box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.75)
+  box-shadow: inset 2px 2px 5px 0px rgba(0,0,0,0.75)
+  overflow: hidden
+  min-height: 1rem
+
+.calculator-display:first-child
+  border-bottom: none
 
 .calculator-buttons
-  display: flex
-  align-items: center
-  justify-content: center
-  flex-wrap: wrap
+  margin-top: 10px
 
 .calculator-button
+  font-family: monospace
+  font-size: 1.1rem
   margin: 5px
+  border: none
+  background-color: #e5eafa
+  color: black
+  width: 64px
+  height: 32px
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75)
+  -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75)
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75)
+  padding: 0
+  &:hover,
+  :focus
+    background-color: darken(#e5eafa, 10%)
 
-.calculator-button--clear
-  color: orange
+.calculator-button.active
+  background-color: darken(#e5eafa, 10%)
+
+.calculator-button--clear-all
+  color: #bf4e30
   font-weight: bold
 
 .calculator-button--0
-  width: 130px
+  width: 138px
+
+.calculator-numbers
+  width: 222px
+
+.calculator-operations
+  display: flex
+  flex-direction: column
+  width: 74px

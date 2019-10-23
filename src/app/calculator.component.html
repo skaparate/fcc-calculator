@@ -11,84 +11,92 @@
         {{ operation }}
       </div>
     </div>
-    <div class="calculator-buttons">
-      <button
-        class="calculator-button calculator-button--clear"
-        (click)="onClear()"
-        id="clear"
-      >
-        C
-      </button>
-      <button
-        class="calculator-button calculator-button--del"
-        value="del"
-        (click)="onDelClick($event)"
-      >
-        Del
-      </button>
-      <button
-        class="calculator-button calculator-button--add"
-        value="+"
-        id="add"
-        (click)="onOperatorClick($event)"
-      >
-        +
-      </button>
-      <button
-        class="calculator-button calculator-button--subtract"
-        value="-"
-        id="subtract"
-        (click)="onOperatorClick($event)"
-      >
-        -
-      </button>
-      <button
-        class="calculator-button calculator-button--divide"
-        value="/"
-        id="divide"
-        (click)="onOperatorClick($event)"
-      >
-        /
-      </button>
-      <button
-        class="calculator-button calculator-button--multiply"
-        value="*"
-        id="multiply"
-        (click)="onOperatorClick($event)"
-      >
-        *
-      </button>
-      <button
-        *ngFor="let button of buttons"
-        class="calculator-button calculator-button--{{ button.value }}"
-        id="{{ button.id }}"
-        data-value="{{ button.value }}"
-        (click)="onButtonClick($event)"
-      >
-        {{ button.value }}
-      </button>
-      <button
-        class="calculator-button calculator-button--decimal"
-        id="decimal"
-        (click)="onDecimalClick()"
-      >
-        .
-      </button>
+    <div class="calculator-buttons clearfix">
+      <div class="calculator-actions">
+        <button
+          class="calculator-button calculator-button--clear-all"
+          (click)="onClearAll()"
+          id="clear"
+        >
+          AC
+        </button>
+        <button
+          class="calculator-button calculator-button--del calculator-button--backspace"
+          value="del"
+          (click)="onDelClick($event)"
+        >
+          &larr;
+        </button>
+        <button
+          class="calculator-button calculator-button--add calculator-button--plus"
+          value="+"
+          id="add"
+          (click)="onOperatorClick($event)"
+        >
+          +
+        </button>
+        <button
+          class="calculator-button calculator-button--subtract calculator-button--minus"
+          value="-"
+          id="subtract"
+          (click)="onOperatorClick($event)"
+        >
+          -
+        </button>
+      </div>
 
-      <!-- <button
-        class="calculator-button calculator-button--negate"
-        (click)="onNegate()"
-      >
-        +/-
-      </button> -->
+      <div class="calculator-numbers left">
+        <button
+          *ngFor="let button of buttons"
+          class="calculator-button calculator-button--{{ button.value }}"
+          id="{{ button.id }}"
+          data-value="{{ button.value }}"
+          (click)="onButtonClick($event)"
+        >
+          {{ button.value }}
+        </button>
 
-      <button
-        id="equals"
-        class="calculator-button calculator-button--equals"
-        (click)="onEqualsClick()"
-      >
-        =
-      </button>
+        <button
+          class="calculator-button calculator-button--decimal calculator-button--period"
+          id="decimal"
+          (click)="onDecimalClick()"
+        >
+          .
+        </button>
+      </div>
+
+      <div class="calculator-operations left">
+        <button
+          class="calculator-button calculator-button--divide"
+          value="/"
+          id="divide"
+          (click)="onOperatorClick($event)"
+        >
+          /
+        </button>
+        <button
+          class="calculator-button calculator-button--multiply"
+          value="*"
+          id="multiply"
+          (click)="onOperatorClick($event)"
+        >
+          *
+        </button>
+        <button
+          class="calculator-button calculator-button--mod"
+          value="%"
+          (click)="onOperatorClick($event)"
+        >
+          %
+        </button>
+        <button
+          id="equals"
+          class="calculator-button calculator-button--equals calculator-button--enter"
+          (click)="onEqualsClick()"
+        >
+          =
+        </button>
+      </div>
     </div>
   </div>
 </div>

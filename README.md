@@ -1,6 +1,18 @@
-# FccCalculator
+# FCC Calculator
+
+This project was developed for the [free code camp's front end libraries projects](https://www.freecodecamp.org/learn/front-end-libraries/front-end-libraries-projects/build-a-javascript-calculator) by [Nicolas Mancilla Vergara (skaparate)](https://nicomv.com/).
+
+The calculator works by either clicking the buttons or using the keyboard, however, I didn't take into account other layous than a spanish keyboards and, using firefox, when You press the division key (*/*) it opens the quick search instead of adding the division operator.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.10.
+
+## Thanks
+
+* [MathJS](https://github.com/josdejong/mathjs), used to evaluate math expressions.
+* [Digital 7](https://www.1001fonts.com/digital-7-font.html) the font used for the display.
+* [Free Code Camp](https://freecodecamp.org/), for helping people on their developer careers.
+* [Angular](https://angular.io), for the framework.
+
 
 ## Development server
 

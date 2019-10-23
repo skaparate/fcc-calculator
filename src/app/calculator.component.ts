@@ -6,60 +6,98 @@ import { evaluate } from 'mathjs';
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.sass'],
 })
-export default class Calculator implements AfterViewInit {
+export default class Calculator implements OnInit {
   operation: string = '0';
   nums = Array.from(Array(10), (x, i) => i);
   buttons: Array<Object> = [];
-  operators: Array<string> = ['-', '+', '*', '/'];
-  negate = false;
+  operators: Array<string> = ['-', '+', '*', '/', '%'];
   expr: string = '0';
   result: string = '';
 
   constructor() {
-    this.buttons.push({
-      value: 0,
-      id: 'zero',
-    });
-    this.buttons.push({
-      value: 1,
-      id: 'one',
-    });
-    this.buttons.push({
-      value: 2,
-      id: 'two',
-    });
-    this.buttons.push({
-      value: 3,
-      id: 'three',
-    });
-    this.buttons.push({
-      value: 4,
-      id: 'four',
-    });
-    this.buttons.push({
-      value: 5,
-      id: 'five',
-    });
-    this.buttons.push({
-      value: 6,
-      id: 'six',
-    });
-    this.buttons.push({
-      value: 7,
-      id: 'seven',
-    });
-    this.buttons.push({
-      value: 8,
-      id: 'eight',
-    });
-    this.buttons.push({
-      value: 9,
-      id: 'nine',
+    let code = [48, 96];
+    const names = [
+      'zero',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+      'nine',
+    ];
+    this.nums.forEach(i => {
+      this.buttons.push({
+        value: i,
+        id: names[i],
+        code: [code[0], code[1]],
+      });
+      code[0]++;
+      code[1]++;
     });
     this.buttons = this.buttons.reverse();
   }
 
-  ngAfterViewInit() {}
+  ngOnInit() {
+    document.addEventListener('keyup', this.handleKeyPress);
+  }
+
+  handleNumber(value: string) {
+    if (this.result) {
+      this.expr = '';
+      this.result = '';
+      this.operation = '';
+    }
+
+    if (this.operation === '0') {
+      this.operation = value;
+      this.expr = value;
+    } else {
+      if (this.operation.length >= 1) {
+        if (
+          this.operation.startsWith('0') &&
+          this.operation[1] !== '.' &&
+          value === '0'
+        ) {
+          return;
+        }
+      }
+      this.operation += value;
+      this.expr += value;
+    }
+  }
+
+  handleKeyPress(event: any) {
+    const code = event.code;
+    console.debug('Event:', event);
+    let key: string;
+
+    if (code === 'BracketRight') {
+      key = 'plus';
+      if (event.shiftKey) {
+        key = 'multiply';
+      }
+    } else if (code === 'Digit5' && event.shiftKey) {
+      key = 'mod';
+    } else {
+      key = code.toLowerCase().replace(/(numpad|digit|key)/, '');
+    }
+
+    const element: HTMLElement = document.querySelector(
+      `.calculator-button--${key}`
+    );
+
+    if (element) {
+      element.classList.add('active');
+      element.click();
+      const handle = setTimeout(() => {
+        element.classList.remove('active');
+        clearTimeout(handle);
+      }, 100);
+    }
+  }
 
   clear(clearResult = true) {
     this.operation = '0';
@@ -69,28 +107,21 @@ export default class Calculator implements AfterViewInit {
     }
   }
 
-  onClear() {
+  onClearAll() {
     this.clear();
   }
 
   onButtonClick(event: any) {
     const value = event.target.value;
     console.debug('Button value:', value);
-
-    if (this.result) {
-      this.expr = '';
-      this.result = '';
-    }
-
-    if (this.operation === '0') {
-      this.operation = value;
-      this.expr = value;
-    } else {
-      this.operation += value;
-      this.expr += value;
-    }
+    this.handleNumber(value);
   }
 
+  /**
+   * Handles the operator button clicks.
+   *
+   * @param event The event sent from the button.
+   */
   onOperatorClick(event: any) {
     const value = event.target.value;
     console.debug('Operator click:', value);
@@ -115,6 +146,9 @@ export default class Calculator implements AfterViewInit {
     this.operation = value;
   }
 
+  /**
+   * Handles the decimal button click.
+   */
   onDecimalClick() {
     const dot = '.';
     if (this.operation.includes(dot)) {
@@ -124,29 +158,34 @@ export default class Calculator implements AfterViewInit {
     this.expr += dot;
   }
 
+  /**
+   * Handles the equals button click.
+   */
   onEqualsClick() {
     this.operation = '';
-    this.expr = this.expr.replace(/(\s+[\-+\/\*]\s+$|(=\d+))/, '');
+    this.expr = this.expr.replace(/(\s+[\-+\/\*%]\s+$|(=\d+))/, '');
     this.result = evaluate(this.expr);
     this.expr = `${this.expr}=${this.result}`;
     this.operation = this.result;
   }
 
-  onNegate() {
-    if (this.operation.startsWith('-')) {
-      this.operation = this.operation.replace('-', '');
-      this.negate = false;
-    } else {
-      this.operation = '-' + this.operation;
-      this.negate = true;
-    }
-  }
-
+  /**
+   * Handles the delete button click.
+   */
   onDelClick() {
+    // Disable the delete action if there is an equal sign
+    if (this.expr.indexOf('=') >= 0) {
+      return;
+    }
+    // Remove the last character of the current operation, if any.
+    if (this.operation.length > 0) {
+      this.operation = this.operation.slice(0, -1);
+    }
     if (this.expr.length > 0) {
+      // Remove the last character of the expression
       this.expr = this.expr.slice(0, -1);
-      this.operation = '';
       if (this.expr.length === 0) {
+        // If the expression is empty, clear all.
         this.clear(false);
       }
     }
@@ -178,6 +217,11 @@ export default class Calculator implements AfterViewInit {
     return this.isOperator(this.expr[this.expr.length - 2]) ? -1 : 0;
   }
 
+  /**
+   * Checks if a string is a operator.
+   *
+   * @param operator The string to check.
+   */
   isOperator(operator: string) {
     return this.operators.includes(operator);
   }

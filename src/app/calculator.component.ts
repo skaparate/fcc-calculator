@@ -81,6 +81,8 @@ export default class Calculator implements OnInit {
       }
     } else if (code === 'Digit5' && event.shiftKey) {
       key = 'mod';
+    } else if (code === 'KeyC') {
+      key = 'clear-all';
     } else {
       key = code.toLowerCase().replace(/(numpad|digit|key)/, '');
     }
@@ -163,7 +165,7 @@ export default class Calculator implements OnInit {
    */
   onEqualsClick() {
     this.operation = '';
-    this.expr = this.expr.replace(/(\s+[\-+\/\*%]\s+$|(=\d+))/, '');
+    this.expr = this.expr.replace(/([\-\s+\/\*%]*$|(=\d+))/g, '');
     this.result = evaluate(this.expr);
     this.expr = `${this.expr}=${this.result}`;
     this.operation = this.result;
@@ -204,17 +206,18 @@ export default class Calculator implements OnInit {
     const lastExpression = this.expr[this.expr.length - 1];
     const lastIsOperator = this.isOperator(lastExpression);
 
-    if (!lastIsOperator) {
+    if (
+      !lastIsOperator ||
+      (val === '-' &&
+        lastIsOperator &&
+        !this.isOperator(this.expr[this.expr.length - 2]))
+    ) {
       return 1;
+    } else if (this.isOperator(this.expr[this.expr.length - 2])) {
+      return -1;
     }
 
-    if (val === '-') {
-      if (lastIsOperator && !this.isOperator(this.expr[this.expr.length - 2])) {
-        return 1;
-      }
-    }
-
-    return this.isOperator(this.expr[this.expr.length - 2]) ? -1 : 0;
+    return 0;
   }
 
   /**

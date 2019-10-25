@@ -83,6 +83,8 @@ export default class Calculator implements OnInit {
       key = 'mod';
     } else if (code === 'KeyC') {
       key = 'clear-all';
+    } else if (code === 'Slash') {
+      key = 'minus';
     } else {
       key = code.toLowerCase().replace(/(numpad|digit|key)/, '');
     }

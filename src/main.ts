@@ -8,5 +8,7 @@ if (environment.production) {
   enableProdMode();
 }
 
+localStorage.setItem('project_selector', 'javascript-calculator');
+
 platformBrowserDynamic().bootstrapModule(AppModule)
   .catch(err => console.error(err));
